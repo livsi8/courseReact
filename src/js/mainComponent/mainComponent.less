@@ -1,0 +1,29 @@
+@headerHeight: 80px;
+@footerHeight: 100px;
+
+.page-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    height: @headerHeight;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  &__content {
+    display: flex;
+    flex: 1;
+    overflow: auto;
+    flex-direction: column;
+  }
+
+  &__footer {
+    height: @footerHeight;
+    display: flex;
+    align-items: center;
+  }
+}
