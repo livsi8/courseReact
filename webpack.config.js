@@ -8,7 +8,8 @@ module.exports = (env, options) => {
 
     const config = {
         entry: {
-            index: ['./src/index.js']
+            index: ['./src/index.js'],
+            login: ['./src/login.js'],
         },
         output: {
             path: path.resolve(__dirname, './dist'),
@@ -85,7 +86,14 @@ module.exports = (env, options) => {
                 filename: '[name].[hash:8].css',
             }),
             new HtmlWebpackPlugin({
-                template: 'public/index.html'
+                filename: 'index.html',
+                template: 'public/index.html',
+                excludeChunks: ['login']
+            }),
+            new HtmlWebpackPlugin({
+                filename: 'login.html',
+                template: 'public/login.html',
+                excludeChunks: ['index']
             }),
             new CleanWebpackPlugin(['dist'])
         ],
