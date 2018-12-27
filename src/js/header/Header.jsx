@@ -10,7 +10,7 @@ export default class Header extends React.Component {
                     <img className='logo-container__logo' src={logo}/>
                 </div>
                 <div className="title-container header__title-container">
-                    <span className="title-container__text">{'REACT ADDITION'}</span>
+                    <span className="title-container__text">{'MY HEADER'}</span>
                 </div>
             </React.Fragment>
         );

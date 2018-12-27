@@ -5,7 +5,7 @@ export default class MainComponent extends React.Component {
     render() {
         return (
             <div className="info-container footer__info-container">
-                <span className="info-container__copyright">{'@Copyright by MEDVEDEV DMITRIY'}</span>
+                <span className="info-container__copyright">{'@Copyright by SOLOVYOV OLEG'}</span>
             </div>
         );
     }

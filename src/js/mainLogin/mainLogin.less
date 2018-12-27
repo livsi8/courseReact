@@ -1,29 +1,53 @@
-//@headerHeight: 80px;
-//@footerHeight: 100px;
-//
-//.page-wrapper {
-//  height: 100vh;
-//  display: flex;
-//  flex-direction: column;
-//
-//  &__header {
-//    height: @headerHeight;
-//    display: flex;
-//    align-items: center;
-//    flex-direction: column;
-//    justify-content: space-around;
-//  }
-//
-//  &__content {
-//    display: flex;
-//    flex: 1;
-//    overflow: auto;
-//    flex-direction: column;
-//  }
-//
-//  &__footer {
-//    height: @footerHeight;
-//    display: flex;
-//    align-items: center;
-//  }
-//}
+
+#rootLogin{
+  background-color: #dad6a0;
+  min-width: 500px;
+  min-height: 340px;
+}
+
+.content{
+  &__logging{
+    margin: 20px 0;
+    font-family: Arial;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+  }
+  &__logging-column{
+    width: 500px;
+    min-height: 140px;
+    background-color: #cac590;
+    border: 1px solid #989898;
+    padding: 10px;
+  }
+  &__password-input,
+  &__login-input{
+    border: 1px solid darkgray;
+    background-color: #dad6a0;
+    &:focus{
+      background-color: #f7ff94;
+    }
+  }
+  &__logging-row{
+    display: flex;
+    justify-content: space-around;
+  }
+  &__logging-btn{
+    height: 40px;
+    width: 200px;
+    padding: 0 10px;
+    background-color: #5895ff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 15px;
+  }
+  &__logging-btn-incognito{
+    background-color: #ffae41;
+  }
+}
+.custom-input{
+  margin: 5px 10px;
+  height: 39px;
+}
+
+

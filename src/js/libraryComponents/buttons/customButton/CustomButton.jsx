@@ -7,11 +7,11 @@ const CustomButton = props => {
         name,
         callback,
         className,
-        backgroundColor
+        btnRef
     } = props;
 
     return (
-        <button style={{ background: backgroundColor }}
+        <button ref={btnRef}
                 className={className}
                 onClick={callback && callback}>
             {name}
@@ -20,7 +20,6 @@ const CustomButton = props => {
 };
 
 CustomButton.propTypes = {
-    backgroundColor: PropTypes.string,
     className: PropTypes.string,
     callback: PropTypes.func.isRequired,
     name: PropTypes.string,
@@ -29,7 +28,6 @@ CustomButton.propTypes = {
 CustomButton.defaultProps = {
     name: 'Custom Button',
     className: 'custom-button',
-    backgroundColor: 'red',
 };
 
 export default CustomButton;
