@@ -2,7 +2,20 @@
 
 .header {
   background: var(--base-background);
+  &__column{
+    //width: calc(100vw - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__settings-container{
+    padding: 14px;
 
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
   &__logo-container {
     width: @logoContainerSize;
     height: @logoContainerSize;
@@ -10,6 +23,12 @@
 
   &__title-container {
 
+  }
+}
+
+.settings-container{
+  &__img{
+    width: 35px;
   }
 }
 
