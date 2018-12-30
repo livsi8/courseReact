@@ -1,3 +1,9 @@
+@settingsWidth: 500px;
+@settingsHeight: 300px;
+@settingsBgColor: #91bac7;
+@settingsHeaderHeight: 35px;
+@settingsFooterHeight: 45px;
+
 .modal {
   display: flex;
   position: absolute;
@@ -29,4 +35,86 @@
       cursor: pointer;
     }
   }
+}
+.modal-Settings{
+  position: absolute;
+  top: calc(50% - @settingsHeight/2);
+  left: calc(50% - @settingsWidth/2);
+  width: @settingsWidth;
+  height: @settingsHeight;
+  background: @settingsBgColor;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__header{
+    .modalHeaderFooter();
+    border-bottom: 1px solid #123456;
+    justify-content: space-between;
+    height: @settingsHeaderHeight;
+  }
+  &__close-img{
+    background: url("../../../../../assets/close.svg") 50% 50% no-repeat;
+    width: 20px;
+    height: 20px;
+    &:hover{
+      cursor: pointer;
+      background: url("../../../../../assets/close-gray.svg") 50% 50% no-repeat;
+    }
+  };
+  &__ritle{}
+  &__body{
+    overflow: auto;
+    margin: 0 15px;
+    height: calc(100% - @settingsFooterHeight - @settingsHeaderHeight - 20%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  &__colon-1{
+    width: 50%;
+  }
+  &__colon-2,
+  &__toggler-helps,
+  &__toggler-langs{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  &__react-switch{
+    margin: 0 8px;
+  }
+  &__switch-help{
+    margin-left: 35px;
+  }
+  &__close-button{
+    background: #748ba0;
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+    width: 120px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    &:hover{
+      background: #91acc1;
+      cursor: pointer;
+    }
+
+  }
+  &__footer{
+    .modalHeaderFooter();
+    border-top: 1px solid #123456;
+    justify-content: center;
+    height: @settingsFooterHeight;
+  }
+}
+.modalHeaderFooter(){
+  display: flex;
+  margin: 15px;
+  font-size: 22px;
+  align-items: start;
 }

@@ -28,16 +28,33 @@ export default class Modal extends React.Component {
         const {
             onClose,
             closeButtonName,
+            modalClass,
+            modalTitle,
         } = this.props;
 
+        const modal_Class = modalClass ? '-'+modalClass : '';
+        const modal_Title = modalTitle ? modalTitle : 'Modal title';
+
         return ReactDOM.createPortal(
-            <div className="modal">
-                <CustomButton
-                    className={'modal__close-button custom-button'}
-                    name={closeButtonName}
-                    callback={onClose}
-                />
-                {this.props.children}
+            <div className= {'modal' + modal_Class}>
+                <div className={'modal' + modal_Class + '__header' }>
+                    <div className={'modal' + modal_Class + '__title' }>
+                        {modal_Title}
+                    </div>
+                    <div className={'modal' + modal_Class + '__close-container'} onClick={onClose}>
+                        <img className={'modal' + modal_Class + '__close-img'}/>
+                    </div>
+                </div>
+                <div className={'modal' + modal_Class + '__body' }>
+                    {this.props.children}
+                </div>
+                <div className={'modal' + modal_Class + '__footer' }>
+                    <CustomButton
+                        className={'modal' + modal_Class + '__close-button'}
+                        name={closeButtonName}
+                        callback={onClose}
+                    />
+                </div>
             </div>,
             this.root
         );

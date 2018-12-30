@@ -5,6 +5,7 @@ import './header.less';
 
 export default class Header extends React.Component {
     render() {
+        const { toggleModalSettings } = this.props;
         return (
             <React.Fragment>
                 <div className='header__column'>
@@ -15,7 +16,7 @@ export default class Header extends React.Component {
                         <span className="title-container__text">{'MY HEADER'}</span>
                     </div>
                 </div>
-                <div className="settings-container header__settings-container" onClick={}>
+                <div className="settings-container header__settings-container" onClick={toggleModalSettings}>
                     <img className='settings-container__img' src={settings}/>
                 </div>
             </React.Fragment>

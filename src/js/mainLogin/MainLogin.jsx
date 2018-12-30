@@ -6,6 +6,8 @@ import CustomInput from '../libraryComponents/input/customInput/CustomInput.jsx'
 import CustomButton from '../libraryComponents/buttons/customButton/CustomButton.jsx';
 import Footer from '../footer/Footer.jsx';
 import ContextConfig from '../context/context.jsx';
+import Modal from '../../js/createPortal/components/modal/Modal.jsx';
+import SwitchToggle from "react-switch";
 import ContextApi from '../contextApi/ContextApi.jsx';
 
 const HighOrderComponent = React.lazy(() => import('../highOrderComponent/HighOrderComponent.jsx'));
@@ -16,6 +18,7 @@ export default class MainLogin extends React.Component {
     state = {
         isLogged: false,
         lang: 'ru',
+        isOpenModalSettings: false,
     };
 
     callbackLogIn = () => {
@@ -45,7 +48,7 @@ export default class MainLogin extends React.Component {
 
     changeLang =(language)=>{
         if(lang === 'ru' || lang === 'en') this.setState({ lang: language });
-    }
+    };
 
     changeLogin = () => {
         this.changeInput(null, this.inputLoginSelf.current, this.inputLoginHelp.current, 'helpLogin');
@@ -80,11 +83,11 @@ export default class MainLogin extends React.Component {
         } else {
             btnLogin.disabled = true;
         }
-    }
+    };
 
     componentDidMount =()=> {
         this.btnLogin.current.disabled = true;
-    }
+    };
 
     inputLoginHelp = React.createRef();
     inputLoginSelf = React.createRef();
@@ -92,15 +95,29 @@ export default class MainLogin extends React.Component {
     inputPassSelf = React.createRef();
     btnLogin = React.createRef();
 
+    toggleModalSettings =()=> {
+        this.setState(state => ({ isOpenModalSettings: !state.isOpenModalSettings}));
+    };
+
+    toggleLang =()=> {
+        this.setState(state => ({ lang: (state.lang === 'ru' ? 'en' : "ru")}));
+    };
+
+    toggleHelp =()=> {
+        // this.setState(state => ({ isShowHelp: !state.isShowHelp}));
+        console.log('toggleHelp-1');
+    };
+
     render() {
-        const { lang } = this.state;
-        const { changeLogin, setFocusAtLogin, changePass, setFocusAtPass, callbackLogIn, anonymousLogIn,
-                inputLoginSelf, inputLoginHelp, inputPassSelf, inputPassHelp, btnLogin } = this;
+        const { lang, isOpenModalSettings } = this.state;
+        const { changeLogin, setFocusAtLogin, changePass, setFocusAtPass, callbackLogIn,
+            anonymousLogIn, toggleModalSettings, toggleLang, toggleHelp,
+            inputLoginSelf, inputLoginHelp, inputPassSelf, inputPassHelp, btnLogin } = this;
         return (
             <React.StrictMode>
             <div className="page-wrapper">
                 <header className="header page-wrapper__header">
-                    {this.context.modules.header.isActive && <Header/>}
+                    {this.context.modules.header.isActive && <Header toggleModalSettings={toggleModalSettings}/>}
                 </header>
                 <main className="content page-wrapper__content">
                     <div className='content__logging'>
@@ -139,6 +156,46 @@ export default class MainLogin extends React.Component {
                             </div>
                         </div>
                     </div>
+                    {isOpenModalSettings &&
+                    <Modal onClose={toggleModalSettings}
+                           modalClass={'Settings'}
+                           modalTitle={resource[lang]['settings']}
+                           closeButtonName={'Close'}>
+                        <div className='modal-Settings__toggler-langs'>
+                            <div className='modal-Settings__colon-1'>
+                                {resource[lang]['language'] + ':'}
+                            </div>
+                            <div className='modal-Settings__colon-2'>
+                                <div>RU</div>
+                                <SwitchToggle
+                                    onChange={toggleLang}
+                                    uncheckedIcon ={false}
+                                    checkedIcon ={false}
+                                    offColor={'#080'}
+                                    onColor={'#080'}
+                                    disabled={false}
+                                    checked={lang === 'en'}
+                                    className="modal-Settings__react-switch"
+                                    id="switchLang"
+                                />
+                                <div>EN</div>
+                            </div>
+                        </div>
+                        <div className='modal-Settings__toggler-helps'>
+                            <div className='modal-Settings__colon-1'>
+                                {resource[lang]['help'] + ':'}
+                            </div>
+                            <div className='modal-Settings__colon-2'>
+                                <SwitchToggle
+                                    onChange={toggleHelp}
+                                    disabled={false}
+                                    checked={false}
+                                    className="modal-Settings__switch-help"
+                                    id="switchHelp"
+                                />
+                            </div>
+                        </div>
+                    </Modal>}
                 </main>
                 <footer className="footer page-wrapper__footer">
                     {this.context.modules.footer.isActive && <Footer/>}
