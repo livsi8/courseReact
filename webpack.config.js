@@ -16,7 +16,9 @@ module.exports = (env, options) => {
             filename: '[name].[hash:8].js',
         },
         devServer: {
-            overlay: true
+            overlay: true,
+            open: true,
+            openPage: 'login.html',
         },
         resolve: {
             alias: {
