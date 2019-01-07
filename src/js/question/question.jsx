@@ -10,7 +10,12 @@ export default class Question extends React.Component {
     getAnswerDivs =(answers)=>{
         let result = [];
         for (let ind in answers){            
-            result.push(<div key={'Answers-'+ind} className='question__answer'>{ answers[ind] }</div>);
+            result.push(
+                <div className='flex-row'>
+                    <input className='question__inp-ansver' type='radio'></input>
+                    <div key={'Answers-'+ind} className='question__answer'>{ answers[ind] }</div>
+                </div>
+            );
         }
         return result;
     }
