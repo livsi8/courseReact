@@ -14,6 +14,8 @@ import ContextColors from '../context/context.jsx';
 import resource from '../lang/languages.js';
 import Modal from '../../js/createPortal/components/modal/Modal.jsx';
 import SwitchToggle from "react-switch";
+import Question from '../question/question.jsx';
+import testQuestions from '../TestQuestions/testQuestions';
 
 export default class MainComponent extends React.Component {
     static contextType = ContextConfig;
@@ -54,10 +56,22 @@ export default class MainComponent extends React.Component {
         this.setState(state => ({ isShowHelp: !state.isShowHelp}));
     };
 
+    getRouteDivs =(questions, lang)=>{
+        let result = [];
+        for (let ind in questions){
+            if (!parseInt(ind)) {
+                result.push(<Route path={'/'} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+            } else {
+                result.push(<Route path={'/question-' + ind} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+            }
+        }
+        return result;
+    }
+
     render() {
         const { isLogged, isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
-        const { toggleModalSettings, toggleLang, toggleHelp } = this;
-
+        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs } = this;
+        const getRouteDiv = getRouteDivs(testQuestions[lang], lang);
 
         return (
             <React.StrictMode>
@@ -66,21 +80,11 @@ export default class MainComponent extends React.Component {
                     {this.context.modules.header.isActive && <Header toggleModalSettings={toggleModalSettings}/>}
                 </header>
                 <main className="content page-wrapper__content">
-                    {/*<Router history={history}>*/}
                     <BrowserRouter>
                         <ContextColors.Provider value={colors}>
-                            <Navigator/>
+                            <Navigator lang={lang}/>
                             <Switch>
-                                <Route path={'/'} component={() => <Login isLogged={isLogged} callbackLogIn={this.toggleLoggedIn} callbackLogOut={this.toggleLoggedOut}/>} exact/>
-                                <Route path={'/createportal'} component={() => (isLogged ? <CreatePortal/> : <Redirect to={'/'}/>)}/>
-                                <Route path={'/proptypes'} component={() => (isLogged ? <PropTypes/> : <Redirect to={'/'}/>)}/>
-                                <Route path={'/contextapi'} component={() => (isLogged ? <ContextApi/> : <Redirect to={'/'}/>)}/>
-                                <Route path={'/hoc'} render={() => (
-                                    <React.Suspense fallback={<div>Loading...</div>}>
-                                        <HighOrderComponent/>
-                                    </React.Suspense>
-                                    )}
-                                />
+                                { getRouteDiv }
                             </Switch>
                         </ContextColors.Provider>
                     </BrowserRouter>
