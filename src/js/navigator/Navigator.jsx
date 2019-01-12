@@ -19,7 +19,7 @@ export default class Navigator extends React.Component {
             if (!parseInt(ind)){
                 result.push(<NavLink key={'NavLink-'+ind} className='nav-links__link' to={'/'} exact>{parseInt(ind)+1}</NavLink>);
             } else {
-                result.push(<NavLink key={'NavLink-'+ind} className='nav-links__link' to={'/question-'+ ind}>{parseInt(ind)+1}</NavLink>)
+                result.push(<NavLink key={'NavLink-'+ (parseInt(ind)+1)} className='nav-links__link' to={'/question-'+ (parseInt(ind)+1)}>{parseInt(ind)+1}</NavLink>)
             }
         }
         return result;

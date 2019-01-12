@@ -28,6 +28,8 @@ export default class MainComponent extends React.Component {
         isShowHelp: false,
     };
 
+    answers = [];
+
     checkIsLoggedIn =()=>{
         this.setState(state => ({ isLoggedIn: !state.isLoggedIn})); //TODO: получить ответ от базы
     }
@@ -58,14 +60,28 @@ export default class MainComponent extends React.Component {
 
     getRouteDivs =(questions, lang)=>{
         let result = [];
+        const { setAnswer } = this;
         for (let ind in questions){
             if (!parseInt(ind)) {
-                result.push(<Route path={'/'} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+                result.push(<Route path={'/'} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } setAnswer={ setAnswer }/>} exact/>)
             } else {
-                result.push(<Route path={'/question-' + ind} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+                result.push(<Route path={'/question-' + ind} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } setAnswer={ setAnswer } />} exact/>)
             }
         }
         return result;
+    }
+
+    setAnswer =(questionNumber)=>{
+        let { answers } = this;
+        let answer = '';
+        document.querySelectorAll('.question__ansvers-block input').forEach(function(item, i, arr) {
+            answer += (item.checked ? '1' : '0');
+        });
+        if (!isNaN(parseInt(answer,2)) ){
+            debugger;
+            answers[questionNumber-1] = parseInt(answer,2);
+        }
+        console.log(answers);
     }
 
     render() {

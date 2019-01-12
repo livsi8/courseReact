@@ -22,12 +22,13 @@ export default class Question extends React.Component {
 
     render() {
         const { getAnswerDivs, getActiveLink } = this;
-        const { lang, questionNumber } = this.props;
+        const { lang, questionNumber, setAnswer } = this.props;
         const objQuestion = testQuestions[lang][questionNumber];
         const answers = getAnswerDivs(objQuestion.answers);
         const linkLeft = (questionNumber - 1 < 1 ? '/' : '/question-'+ (questionNumber - 1));
         const linkRight = (questionNumber + 1 > 12 ? '/question-13' : '/question-'+ (questionNumber+1));
-        
+        // setAnswer(questionNumber)
+
         return (
             <div className='question__wraper'>
                 <NavLink key={'NavLink-'+ questionNumber} className='question__btn-left' to={ linkLeft }></NavLink>
