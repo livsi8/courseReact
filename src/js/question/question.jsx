@@ -21,19 +21,21 @@ export default class Question extends React.Component {
     }
 
     render() {
-        const { getAnswerDivs } = this;
+        const { getAnswerDivs, getActiveLink } = this;
         const { lang, questionNumber } = this.props;
         const objQuestion = testQuestions[lang][questionNumber];
         const answers = getAnswerDivs(objQuestion.answers);
-
+        const linkLeft = (questionNumber - 1 < 1 ? '/' : '/question-'+ (questionNumber - 1));
+        const linkRight = (questionNumber + 1 > 12 ? '/question-13' : '/question-'+ (questionNumber+1));
+        
         return (
             <div className='question__wraper'>
-                <div className='question__btn-left'>left</div>
+                <NavLink key={'NavLink-'+ questionNumber} className='question__btn-left' to={ linkLeft }></NavLink>
                 <div className='question__block'>
                     <div className='question__self'>{ objQuestion.question }</div>
                     <div className='question__ansvers-block'>{ answers }</div>
                 </div>
-                <div className='question__btn-right'>right</div>
+                <NavLink key={'NavLink-'+ (questionNumber + 1)} className='question__btn-right' to={ linkRight }></NavLink>
             </div>
         );
     }

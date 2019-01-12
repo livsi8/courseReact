@@ -1,18 +1,22 @@
 .question{
     &__wraper{
         display: flex;
-        justify-content: space-around;
-        padding: 20px;
+        justify-content: space-between;
         font-size: 21px;
         background: #ffefb4;
-        height: calc(100% - 90px);
+        height: calc(100% - 50px);
     }
     &__btn-left{
-        margin-bottom: 15px;
+        .btn-left-right();
+        -webkit-transform:rotate(180deg);
+        -moz-transform:rotate(180deg);
     }
-    &__btn-right{}
+    &__btn-right{
+        .btn-left-right();
+    }
     &__block{
         width: 80%;
+        padding-top: 40px;
     }    
     &__self{}
     &__ansvers-block{}
@@ -24,4 +28,11 @@
 
 .flex-row{
     display: flex;
+}
+
+.btn-left-right(){
+    background: url('./../../../assets/arrow-right.svg') no-repeat center;
+    height: 100%;
+    width: 60px;
+    background-color: #fbc599;
 }
