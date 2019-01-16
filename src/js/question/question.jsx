@@ -24,9 +24,10 @@ export default class Question extends React.Component {
         const { getAnswerDivs, getActiveLink } = this;
         const { lang, questionNumber } = this.props;
         const objQuestion = testQuestions[lang][questionNumber];
-        const answers = getAnswerDivs(objQuestion.answers);
-        const linkLeft = (questionNumber - 1 < 1 ? '/' : '/question-'+ (questionNumber - 1));
-        const linkRight = (questionNumber + 1 > 12 ? '/question-13' : '/question-'+ (questionNumber+1));
+        
+        const answers   = getAnswerDivs(objQuestion.answers);
+        const linkLeft  = (questionNumber < 2  ? '/'            : '/question-'+ (questionNumber    ));
+        const linkRight = (questionNumber > 11 ? '/question-13' : '/question-'+ (questionNumber + 2));
         
         return (
             <div className='question__wraper'>

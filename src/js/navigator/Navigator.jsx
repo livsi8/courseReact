@@ -16,10 +16,11 @@ export default class Navigator extends React.Component {
         const questions = testQuestions[lang];
         let result = [];
         for (let ind in questions){
+            const index = parseInt(ind)+1;
             if (!parseInt(ind)){
-                result.push(<NavLink key={'NavLink-'+ind} className='nav-links__link' to={'/'} exact>{parseInt(ind)+1}</NavLink>);
+                result.push(<NavLink key={'NavLink-' + (index-1)} className='nav-links__link' to={'/'} exact>{ index }</NavLink>);
             } else {
-                result.push(<NavLink key={'NavLink-'+ind} className='nav-links__link' to={'/question-'+ ind}>{parseInt(ind)+1}</NavLink>)
+                result.push(<NavLink key={'NavLink-' + (index)} className='nav-links__link' to={'/question-' + index }>{ index }</NavLink>)
             }
         }
         return result;

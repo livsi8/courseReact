@@ -62,7 +62,7 @@ export default class MainComponent extends React.Component {
             if (!parseInt(ind)) {
                 result.push(<Route path={'/'} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
             } else {
-                result.push(<Route path={'/question-' + ind} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+                result.push(<Route path={'/question-' + (parseInt(ind)+1)} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
             }
         }
         return result;
