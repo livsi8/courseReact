@@ -7,12 +7,20 @@ import testQuestions from '../TestQuestions/testQuestions';
 export default class Question extends React.Component {
     // static contextType = ContextColors;
 
+    selectAnswer = (e) => {
+        const { lang, questionNumber, setAnswer } = this.props;
+        const objQuestion = testQuestions[lang][questionNumber].answers.length;
+        setAnswer(questionNumber, e.target.parentElement, objQuestion)
+    }
+
     getAnswerDivs =(answers)=>{
         let result = [];
-        for (let ind in answers){            
+        const { selectAnswer } = this;
+        const { checkedAnswers } = this.props;
+        for (let ind in answers){
             result.push(
-                <div className='flex-row'>
-                    <input className='question__inp-ansver' type='radio'></input>
+                <div className={ parseInt(checkedAnswers[ind]) ? 'question__answer--checked flex-row question__answer-row' : 'flex-row question__answer-row'} ind={ind} onClick={ selectAnswer }>
+                    <input className='question__inp-ansver' checked={ parseInt(checkedAnswers[ind]) } type='radio'></input>
                     <div key={'Answers-'+ind} className='question__answer'>{ answers[ind] }</div>
                 </div>
             );

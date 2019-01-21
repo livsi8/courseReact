@@ -28,21 +28,93 @@ export default class MainComponent extends React.Component {
         isShowHelp: false,
     };
 
-    checkIsLoggedIn =()=>{
-        this.setState(state => ({ isLoggedIn: !state.isLoggedIn})); //TODO: получить ответ от базы
+    answers = [];
+
+    setAnswer =( questionNumber, answerElement, answersLength )=>{
+        if (answersLength > 10) return;
+        let { answers } = this;
+        const answer = answers[questionNumber];
+        const checkAnswer = answerElement.classList.contains('question__answer--checked');
+        const input = answerElement.querySelector('input');
+        setTimeout(() => {
+            input.checked = !checkAnswer;
+        }, 50)
+
+        checkAnswer
+            ? answerElement.classList.remove('question__answer--checked')
+            : answerElement.classList.add('question__answer--checked');
+        const chekedInput = answerElement.getAttribute('ind');
+        // answerElement.querySelector('.question__answer').style.backgroundColor = ( !checkAnswer ? '#c9cfdc' : 'transparent' );
+        let answerString = '';
+        if (answer ) {
+        // if (answer || chekedInput) {
+            const delta0 = answersLength - answer.toString(2).length;
+            let delta = '';
+            for (var i=0; i < delta0; i++){
+                delta += '0';
+            }
+            answerString = delta + answer.toString(2);
+            const changedSymbol = parseInt(answerString[chekedInput]) ? '0' : '1';
+            answerString = answerString.substring((chekedInput != '0' ? 0 : ''), chekedInput) + changedSymbol + answerString.substring(parseInt(chekedInput)+1)
+        } else {
+            for (var i=0; i < answersLength; i++){
+                answerString += (chekedInput === i.toString() ? '1' : '0');
+            }
+        }
+        if (!isNaN(parseInt(answerString,2)) ){
+            answers[questionNumber] = parseInt(answerString,2);
+        }
+        this.setLocalStorage(this.answers);
+        console.log(answers);
     }
 
-    componentDidMount =()=> {
-        this.checkIsLoggedIn();
-    };
+    componentWillMount(){
+        const ls = this.getLocalStorage();
+        if (ls){
+            this.answers = ls;
+        }
+    }
 
-    toggleLoggedIn = () => {
-        this.setState(() => ({isLogged: true}));
-    };
+    // checkIsLoggedIn =()=>{
+    //     this.setState(state => ({ isLoggedIn: !state.isLoggedIn})); //TODO: получить ответ от базы
+    // };
 
-    toggleLoggedOut = () => {
-        this.setState(() => ({isLogged: false}));
-    };
+    getActiveUser = () => {
+        return 'Lee';           // TODO SQL !!!
+    }
+
+    setLocalStorage = (answers) => {
+        const { getActiveUser } = this;
+        try {
+            window.localStorage.setItem( getActiveUser(), JSON.stringify(answers) );
+            return true;
+        } catch {
+            console.log("Can't save to localstorage for \"" + name + "\".")
+            return false;
+        }
+    }
+
+    getLocalStorage = () => {
+        const { getActiveUser } = this;
+        try {
+            return JSON.parse(window.localStorage.getItem(getActiveUser()));
+        } catch {
+            console.log("Can't get from localstorage for \"" + name + "\".")
+            return false;
+        }
+    }
+
+    // componentDidMount =()=> {
+    //     this.checkIsLoggedIn();
+    // };
+    //
+    // toggleLoggedIn = () => {
+    //     this.setState(() => ({isLogged: true}));
+    // };
+    //
+    // toggleLoggedOut = () => {
+    //     this.setState(() => ({isLogged: false}));
+    // };
 
     toggleModalSettings =()=> {
         this.setState(state => ({ isOpenModalSettings: !state.isOpenModalSettings}));
@@ -56,13 +128,52 @@ export default class MainComponent extends React.Component {
         this.setState(state => ({ isShowHelp: !state.isShowHelp}));
     };
 
+    getStringAnswer = (answer, answersLength, chekedInput) => {
+        let answerString = '';
+        if (answer) {
+            const delta0 = answersLength - answer.toString(2).length;
+            let delta = '';
+            for (var i=0; i < delta0; i++){
+                delta += '0';
+            }
+            answerString = delta + answer.toString(2);
+        } else {
+            for (var i=0; i < answersLength; i++){
+                answerString += '0';
+            }
+        }
+        return answerString;
+    }
+
     getRouteDivs =(questions, lang)=>{
+        const { setAnswer, answers, getStringAnswer } = this;
+
         let result = [];
         for (let ind in questions){
             if (!parseInt(ind)) {
-                result.push(<Route path={'/'} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+                result.push(<Route
+                    path={'/'}
+                    component={() =>
+                        <Question
+                            lang={ lang }
+                            checkedAnswers={ getStringAnswer(answers[ind], questions[ind].answers.length, ind ) }
+                            questionNumber={ parseInt(ind) }
+                            setAnswer={ setAnswer }
+                        />}
+                    exact
+                />)
             } else {
-                result.push(<Route path={'/question-' + (parseInt(ind)+1)} component={() => <Question lang={ lang } questionNumber={ parseInt(ind) } />} exact/>)
+                result.push(<Route
+                    path={'/question-' + (parseInt(ind)+1)}
+                    component={() =>
+                        <Question
+                            lang={ lang }
+                            checkedAnswers={ getStringAnswer(answers[ind], questions[ind].answers.length, ind ) }
+                            questionNumber={ parseInt(ind) }
+                            setAnswer={ setAnswer }
+                        />}
+                    exact
+                />)
             }
         }
         return result;

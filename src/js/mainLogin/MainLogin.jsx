@@ -35,7 +35,7 @@ export default class MainLogin extends React.Component {
     };
 
     anonymousLogIn = () => {
-        location.href = 'http://localhost:8080/index.html';
+        location.href = 'http://localhost:8080/';
     };
 
     setSQL =(data)=>{
