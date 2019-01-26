@@ -10,7 +10,10 @@ export default class Question extends React.Component {
     selectAnswer = (e) => {
         const { lang, questionNumber, setAnswer } = this.props;
         const objQuestion = testQuestions[lang][questionNumber].answers.length;
-        setAnswer(questionNumber, e.target.parentElement, objQuestion)
+        const parent = e.target.parentElement.classList.contains('question__ansvers-block')
+            ? e.target : e.target.parentElement;
+
+        setAnswer(questionNumber, parent, objQuestion)
     }
 
     getAnswerDivs =(answers)=>{

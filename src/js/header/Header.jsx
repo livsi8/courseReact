@@ -16,9 +16,15 @@ export default class Header extends React.Component {
                         <span className="title-container__text">{'MY HEADER'}</span>
                     </div>
                 </div>
-                <div className="settings-container header__settings-container" onClick={toggleModalSettings}>
-                    <img className='settings-container__img' src={settings}/>
+                <div className='header__right-block'>
+                    <div className="header-user-name">
+                        
+                    </div>
+                    <div className="settings-container header__settings-container" onClick={toggleModalSettings}>
+                        <img className='settings-container__img' src={settings}/>
+                    </div>
                 </div>
+                
             </React.Fragment>
         );
     }
