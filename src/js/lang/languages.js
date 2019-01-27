@@ -1,6 +1,8 @@
 const resources = {
     ru: {
         login: 'Логин',
+        myHeader: 'Это ШАПКА',
+        user: 'Пользователь',
         placeholderLogin: 'Ваш логин',
         placeholderPassword: 'Ваш пароль',
         password: 'Пароль',

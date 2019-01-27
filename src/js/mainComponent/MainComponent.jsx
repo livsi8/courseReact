@@ -29,6 +29,7 @@ export default class MainComponent extends React.Component {
     };
 
     answers = [];
+    user = null;
 
     setAnswer =( questionNumber, answerElement, answersLength )=>{
         if (answersLength > 10) return;
@@ -46,7 +47,7 @@ export default class MainComponent extends React.Component {
         const chekedInput = answerElement.getAttribute('ind');
         // answerElement.querySelector('.question__answer').style.backgroundColor = ( !checkAnswer ? '#c9cfdc' : 'transparent' );
         let answerString = '';
-        if (answer ) {
+        if ( answer ) {
         // if (answer || chekedInput) {
             const delta0 = answersLength - answer.toString(2).length;
             let delta = '';
@@ -69,7 +70,9 @@ export default class MainComponent extends React.Component {
     }
 
     componentWillMount(){
-        const ls = this.getLocalStorage();
+        const { getActiveUser, getLocalStorage } = this;
+        getActiveUser();
+        const ls = getLocalStorage();
         if (ls){
             this.answers = ls;
         }
@@ -80,13 +83,12 @@ export default class MainComponent extends React.Component {
     // };
 
     getActiveUser = () => {
-        return 'Lee';           // TODO SQL !!!
+        this.user = 'Lee';           // TODO SQL !!!
     }
 
     setLocalStorage = (answers) => {
-        const { getActiveUser } = this;
         try {
-            window.localStorage.setItem( getActiveUser(), JSON.stringify(answers) );
+            window.localStorage.setItem( this.user, JSON.stringify(answers) );
             return true;
         } catch {
             console.log("Can't save to localstorage for \"" + name + "\".")
@@ -95,26 +97,13 @@ export default class MainComponent extends React.Component {
     }
 
     getLocalStorage = () => {
-        const { getActiveUser } = this;
         try {
-            return JSON.parse(window.localStorage.getItem(getActiveUser()));
+            return JSON.parse(window.localStorage.getItem(this.user));
         } catch {
             console.log("Can't get from localstorage for \"" + name + "\".")
             return false;
         }
     }
-
-    // componentDidMount =()=> {
-    //     this.checkIsLoggedIn();
-    // };
-    //
-    // toggleLoggedIn = () => {
-    //     this.setState(() => ({isLogged: true}));
-    // };
-    //
-    // toggleLoggedOut = () => {
-    //     this.setState(() => ({isLogged: false}));
-    // };
 
     toggleModalSettings =()=> {
         this.setState(state => ({ isOpenModalSettings: !state.isOpenModalSettings}));
@@ -128,7 +117,7 @@ export default class MainComponent extends React.Component {
         this.setState(state => ({ isShowHelp: !state.isShowHelp}));
     };
 
-    getStringAnswer = (answer, answersLength, chekedInput) => {
+    getStringAnswer = (answer, answersLength) => {
         let answerString = '';
         if (answer) {
             const delta0 = answersLength - answer.toString(2).length;
@@ -143,10 +132,10 @@ export default class MainComponent extends React.Component {
             }
         }
         return answerString;
-    }
+    };
 
     getRouteDivs =(questions, lang)=>{
-        const { setAnswer, answers, getStringAnswer } = this;
+        const { setAnswer, answers, getStringAnswer, getStat } = this;
 
         let result = [];
         for (let ind in questions){
@@ -159,6 +148,7 @@ export default class MainComponent extends React.Component {
                             checkedAnswers={ getStringAnswer(answers[ind], questions[ind].answers.length, ind ) }
                             questionNumber={ parseInt(ind) }
                             setAnswer={ setAnswer }
+                            getStat={getStat}
                         />}
                     exact
                 />)
@@ -171,24 +161,37 @@ export default class MainComponent extends React.Component {
                             checkedAnswers={ getStringAnswer(answers[ind], questions[ind].answers.length, ind ) }
                             questionNumber={ parseInt(ind) }
                             setAnswer={ setAnswer }
+                            getStat={getStat}
                         />}
                     exact
                 />)
             }
         }
         return result;
-    }
+    };
+
+    getStat = (questionNumber, questionsLength) => {
+        questionNumber =  questionNumber ? questionNumber : 1;
+        questionsLength = questionsLength ? questionsLength : 13;
+        const answer = questionNumber < 10 ? '0' + questionNumber : questionNumber;
+        const question = questionsLength < 10 ? '0' + questionsLength : questionsLength;
+        document.querySelector('.header__question-stat').innerHTML = ' [' + answer + '/' +  question + '] ';
+    };
 
     render() {
-        const { isLogged, isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
-        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs } = this;
+        const { isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
+        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user} = this;
         const getRouteDiv = getRouteDivs(testQuestions[lang], lang);
 
         return (
             <React.StrictMode>
             <div className="page-wrapper">
                 <header className="header page-wrapper__header">
-                    {this.context.modules.header.isActive && <Header toggleModalSettings={toggleModalSettings}/>}
+                    {this.context.modules.header.isActive && <Header
+                        toggleModalSettings={toggleModalSettings}
+                        resource={ resource[lang] }
+                        user={ user }
+                    />}
                 </header>
                 <main className="content page-wrapper__content">
                     <BrowserRouter>

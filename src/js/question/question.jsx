@@ -5,7 +5,6 @@ import './question.less';
 import testQuestions from '../TestQuestions/testQuestions';
 
 export default class Question extends React.Component {
-    // static contextType = ContextColors;
 
     selectAnswer = (e) => {
         const { lang, questionNumber, setAnswer } = this.props;
@@ -14,7 +13,7 @@ export default class Question extends React.Component {
             ? e.target : e.target.parentElement;
 
         setAnswer(questionNumber, parent, objQuestion)
-    }
+    };
 
     getAnswerDivs =(answers)=>{
         let result = [];
@@ -29,11 +28,17 @@ export default class Question extends React.Component {
             );
         }
         return result;
+    };
+
+    componentDidMount() {
+        debugger;
+        const { questionNumber, getStat, lang } = this.props;
+        this.props.getStat(questionNumber + 1, testQuestions[lang].length)
     }
 
     render() {
         const { getAnswerDivs, getActiveLink } = this;
-        const { lang, questionNumber } = this.props;
+        const { lang, questionNumber} = this.props;
         const objQuestion = testQuestions[lang][questionNumber];
         
         const answers   = getAnswerDivs(objQuestion.answers);
