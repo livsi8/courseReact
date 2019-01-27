@@ -31,7 +31,6 @@ export default class Question extends React.Component {
     };
 
     componentDidMount() {
-        debugger;
         const { questionNumber, getStat, lang } = this.props;
         this.props.getStat(questionNumber + 1, testQuestions[lang].length)
     }

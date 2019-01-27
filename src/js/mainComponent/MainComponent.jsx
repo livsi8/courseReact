@@ -84,6 +84,7 @@ export default class MainComponent extends React.Component {
 
     getActiveUser = () => {
         this.user = 'Lee';           // TODO SQL !!!
+        this.setState(state => ({ isLoggedIn: !!this.user}));
     }
 
     setLocalStorage = (answers) => {
@@ -180,7 +181,7 @@ export default class MainComponent extends React.Component {
 
     render() {
         const { isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
-        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user} = this;
+        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user } = this;
         const getRouteDiv = getRouteDivs(testQuestions[lang], lang);
 
         return (
@@ -245,7 +246,10 @@ export default class MainComponent extends React.Component {
                     </Modal>}
                 </main>
                 <footer className="footer page-wrapper__footer">
-                    {this.context.modules.header.isActive && <Footer/>}
+                    {this.context.modules.header.isActive && <Footer
+                        isShowHelp={ isShowHelp }
+                        resource={ resource[lang] }
+                    />}
                 </footer>
             </div>
             </React.StrictMode>

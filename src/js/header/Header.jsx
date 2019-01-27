@@ -6,7 +6,7 @@ import './header.less';
 export default class Header extends React.Component {
     render() {
         let { toggleModalSettings, resource, user } = this.props;
-        const userName = user ? user : null;
+        const userName = user ? resource['user'] + ': ' + user : null;
 
         return (
             <React.Fragment>
@@ -20,7 +20,7 @@ export default class Header extends React.Component {
                 </div>
                 <div className='header__right-block'>
                     <div className="header__user-name">
-                        { resource['user'] + ': ' + userName }
+                        { userName }
                     </div>
                     <div className="header__question-stat"></div>
                     <div className="settings-container header__settings-container" onClick={toggleModalSettings}>

@@ -117,7 +117,10 @@ export default class MainLogin extends React.Component {
             <React.StrictMode>
             <div className="page-wrapper">
                 <header className="header page-wrapper__header">
-                    {this.context.modules.header.isActive && <Header toggleModalSettings={toggleModalSettings}/>}
+                    {this.context.modules.header.isActive && <Header
+                        toggleModalSettings={toggleModalSettings}
+                        resource={resource[lang]}
+                    />}
                 </header>
                 <main className="content page-wrapper__content">
                     <div className='content__logging'>
