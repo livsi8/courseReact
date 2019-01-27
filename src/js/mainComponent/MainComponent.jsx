@@ -67,7 +67,7 @@ export default class MainComponent extends React.Component {
         }
         this.setLocalStorage(this.answers);
         console.log(answers);
-    }
+    };
 
     componentWillMount(){
         const { getActiveUser, getLocalStorage } = this;
@@ -181,7 +181,7 @@ export default class MainComponent extends React.Component {
 
     render() {
         const { isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
-        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user } = this;
+        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user, answers } = this;
         const getRouteDiv = getRouteDivs(testQuestions[lang], lang);
 
         return (
@@ -197,7 +197,10 @@ export default class MainComponent extends React.Component {
                 <main className="content page-wrapper__content">
                     <BrowserRouter>
                         <ContextColors.Provider value={colors}>
-                            <Navigator lang={lang}/>
+                            <Navigator
+                                lang={lang}
+                                answers={answers}
+                            />
                             <Switch>
                                 { getRouteDiv }
                             </Switch>
