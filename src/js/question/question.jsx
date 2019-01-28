@@ -7,21 +7,25 @@ import testQuestions from '../TestQuestions/testQuestions';
 export default class Question extends React.Component {
 
     selectAnswer = (e) => {
-        const { lang, questionNumber, setAnswer } = this.props;
+        const { lang, questionNumber, setAnswer, toggShowRightAnswer } = this.props;
         const objQuestion = testQuestions[lang][questionNumber].answers.length;
         const parent = e.target.parentElement.classList.contains('question__ansvers-block')
             ? e.target : e.target.parentElement;
 
-        setAnswer(questionNumber, parent, objQuestion)
+        setAnswer(questionNumber, parent, objQuestion);
+        toggShowRightAnswer(testQuestions[lang].length);
     };
 
     getAnswerDivs =(answers)=>{
         let result = [];
         const { selectAnswer } = this;
-        const { checkedAnswers } = this.props;
+        const { checkedAnswers, isShowRightAnswer, testQuestions } = this.props;
+        
         for (let ind in answers){
+            const answerChecked = (parseInt(checkedAnswers[ind]) ? ' question__answer--checked ' : '');
+            const goodAnswer = (isShowRightAnswer && testQuestions[ind]? ' goodAnswer ' : '');
             result.push(
-                <div className={ parseInt(checkedAnswers[ind]) ? 'question__answer--checked flex-row question__answer-row' : 'flex-row question__answer-row'} ind={ind} onClick={ selectAnswer }>
+                <div className={ 'flex-row question__answer-row' + answerChecked + goodAnswer } ind={ind} onClick={ selectAnswer }>
                     <input className='question__inp-ansver' checked={ parseInt(checkedAnswers[ind]) } type='radio'></input>
                     <div key={'Answers-'+ind} className='question__answer'>{ answers[ind] }</div>
                 </div>
@@ -39,7 +43,7 @@ export default class Question extends React.Component {
         const { getAnswerDivs, getActiveLink } = this;
         const { lang, questionNumber} = this.props;
         const objQuestion = testQuestions[lang][questionNumber];
-        
+
         const answers   = getAnswerDivs(objQuestion.answers);
         const linkLeft  = (questionNumber < 2  ? '/'            : '/question-'+ (questionNumber    ));
         const linkRight = (questionNumber > 11 ? '/question-13' : '/question-'+ (questionNumber + 2));

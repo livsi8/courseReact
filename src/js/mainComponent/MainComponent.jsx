@@ -26,6 +26,7 @@ export default class MainComponent extends React.Component {
         isOpenModalSettings: false,
         isLoggedIn: false,
         isShowHelp: false,
+        isShowRightAnswer: false,
     };
 
     answers = [];
@@ -114,6 +115,19 @@ export default class MainComponent extends React.Component {
         this.setState(state => ({ lang: (state.lang === 'ru' ? 'en' : "ru")}));
     };
 
+    toggShowRightAnswer =(questionsLength)=> {
+        if (this.state.isLoggedIn) {
+            debugger;
+            let counter = 0;
+            for (var i = 0; i < questionsLength; i++) {
+                if (this.answers[i]) counter++
+            }
+            if (counter == questionsLength)
+                this.setState(state => ({ isShowRightAnswer: !state.isShowRightAnswer }));
+                console.log('isShowRightAnswer');
+        }
+    };
+
     toggleHelp =()=> {
         this.setState(state => ({ isShowHelp: !state.isShowHelp}));
     };
@@ -136,8 +150,9 @@ export default class MainComponent extends React.Component {
     };
 
     getRouteDivs =(questions, lang)=>{
-        const { setAnswer, answers, getStringAnswer, getStat } = this;
-
+        const { setAnswer, answers, getStringAnswer, getStat, toggShowRightAnswer } = this;
+        // toggShowRightAnswer(testQuestions[lang].length);
+debugger
         let result = [];
         for (let ind in questions){
             if (!parseInt(ind)) {
@@ -150,6 +165,9 @@ export default class MainComponent extends React.Component {
                             questionNumber={ parseInt(ind) }
                             setAnswer={ setAnswer }
                             getStat={getStat}
+                            isShowRightAnswer={ this.state.isShowRightAnswer }
+                            toggShowRightAnswer={toggShowRightAnswer}
+                            testQuestions={testQuestions[lang]}
                         />}
                     exact
                 />)
@@ -163,6 +181,9 @@ export default class MainComponent extends React.Component {
                             questionNumber={ parseInt(ind) }
                             setAnswer={ setAnswer }
                             getStat={getStat}
+                            isShowRightAnswer={ this.state.isShowRightAnswer }
+                            toggShowRightAnswer={toggShowRightAnswer}
+                            testQuestions={testQuestions[lang]}
                         />}
                     exact
                 />)
