@@ -5,7 +5,7 @@ import './header.less';
 
 export default class Header extends React.Component {
     render() {
-        let { toggleModalSettings, resource, user } = this.props;
+        let { toggleModalSettings, resource, user, refStat } = this.props;
         const userName = user ? resource['user'] + ': ' + user : null;
 
         return (
@@ -22,7 +22,7 @@ export default class Header extends React.Component {
                     <div className="header__user-name">
                         { userName }
                     </div>
-                    <div className="header__question-stat"></div>
+                    <div className="header__question-stat" ref={refStat}></div>
                     <div className="settings-container header__settings-container" onClick={toggleModalSettings}>
                         <img className='settings-container__img' src={settings}/>
                     </div>

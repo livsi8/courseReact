@@ -31,6 +31,7 @@ export default class MainComponent extends React.Component {
 
     answers = [];
     user = null;
+    refStat = React.createRef();
 
     setAnswer =( questionNumber, answerElement, answersLength )=>{
         if (answersLength > 10) return;
@@ -117,7 +118,6 @@ export default class MainComponent extends React.Component {
 
     toggShowRightAnswer =(questionsLength)=> {
         if (this.state.isLoggedIn) {
-            debugger;
             let counter = 0;
             for (var i = 0; i < questionsLength; i++) {
                 if (this.answers[i]) counter++
@@ -152,7 +152,6 @@ export default class MainComponent extends React.Component {
     getRouteDivs =(questions, lang)=>{
         const { setAnswer, answers, getStringAnswer, getStat, toggShowRightAnswer } = this;
         // toggShowRightAnswer(testQuestions[lang].length);
-debugger
         let result = [];
         for (let ind in questions){
             if (!parseInt(ind)) {
@@ -193,16 +192,17 @@ debugger
     };
 
     getStat = (questionNumber, questionsLength) => {
+        const { refStat } = this;
         questionNumber =  questionNumber ? questionNumber : 1;
         questionsLength = questionsLength ? questionsLength : 13;
         const answer = questionNumber < 10 ? '0' + questionNumber : questionNumber;
         const question = questionsLength < 10 ? '0' + questionsLength : questionsLength;
-        document.querySelector('.header__question-stat').innerHTML = ' [' + answer + '/' +  question + '] ';
+        refStat.current.innerHTML = ' [' + answer + '/' +  question + '] ';
     };
 
     render() {
         const { isOpenModalSettings, lang, isLoggedIn, isShowHelp } = this.state;
-        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user, answers } = this;
+        const { toggleModalSettings, toggleLang, toggleHelp, getRouteDivs, user, answers, refStat } = this;
         const getRouteDiv = getRouteDivs(testQuestions[lang], lang);
 
         return (
@@ -210,6 +210,7 @@ debugger
             <div className="page-wrapper">
                 <header className="header page-wrapper__header">
                     {this.context.modules.header.isActive && <Header
+                        refStat = {refStat}
                         toggleModalSettings={toggleModalSettings}
                         resource={ resource[lang] }
                         user={ user }
